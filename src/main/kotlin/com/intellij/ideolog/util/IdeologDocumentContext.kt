@@ -39,6 +39,7 @@ class IdeologDocumentContext(val document: Document) {
   val whitelistedItems = HashSet<Pair<Int, String>>()
   var hideLinesAbove: Int = -1
   var hideLinesBelow: Int = Int.MAX_VALUE
+  var hideColumnsLeft: Int = -1
 
   private var format: LogFileFormat? = null
 
