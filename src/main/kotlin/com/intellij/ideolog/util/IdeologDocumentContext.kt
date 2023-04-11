@@ -40,6 +40,7 @@ class IdeologDocumentContext(val document: Document) {
   var hideLinesAbove: Int = -1
   var hideLinesBelow: Int = Int.MAX_VALUE
   var hideColumnsLeft: Int = -1
+  var hideColumnsRight: Int = Int.MAX_VALUE
 
   private var format: LogFileFormat? = null
 

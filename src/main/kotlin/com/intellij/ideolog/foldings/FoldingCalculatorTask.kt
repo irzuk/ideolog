@@ -28,7 +28,7 @@ class FoldingCalculatorTask(project: Project, val editor: Editor, fileName: Stri
   }
 
   private val foldings = ArrayList<Pair<Int, Int>>()
-  private val foldingsColumns = ArrayList<Pair<Int, Int>>()
+  private val foldingsColumns = ArrayList<Pair<Pair<Int, Int>, Int>>()
   val settings = LogHighlightingSettingsStore.getInstance()
   private val context = editor.document.ideologContext
   private val hiddenItems = context.hiddenItems
@@ -38,6 +38,7 @@ class FoldingCalculatorTask(project: Project, val editor: Editor, fileName: Stri
   private val hideLinesAbove: Int = context.hideLinesAbove
   private val hideLinesBelow: Int = context.hideLinesBelow
   private val hideColumnsLeft: Int = context.hideColumnsLeft
+  private val hideColumnsRight: Int = context.hideColumnsRight
   val fileType = detectLogFileFormat(editor)
   private val tokens = ArrayList<LogToken>()
   private var lastAddedFoldingEndOffset = -1
@@ -77,7 +78,6 @@ class FoldingCalculatorTask(project: Project, val editor: Editor, fileName: Stri
                     editor.foldingModel.removeFoldRegion(it)
                   }
                 }
-
                 collapseFoldings()
                 lastAddedFoldingEndOffset = lastNewFoldingOffset
               }
@@ -86,10 +86,13 @@ class FoldingCalculatorTask(project: Project, val editor: Editor, fileName: Stri
           }
         }
         lastVisibleLine = i
-        if (editor.document.ideologContext.hideColumnsLeft != -1) {
-          tokens.clear()
-          fileType.tokenize(line, tokens, true)
-          foldingsColumns.add(start to start + tokens[editor.document.ideologContext.hideColumnsLeft].endOffset)
+        val parsedLine = ArrayList<LogToken>()
+        fileType.tokenize(line, parsedLine, true)
+        if (hideColumnsLeft != -1) {
+          foldingsColumns.add(start to start + parsedLine[hideColumnsLeft].endOffset to hideColumnsLeft + 1)
+        }
+        if (hideColumnsRight != Int.MAX_VALUE) {
+          foldingsColumns.add(start + parsedLine[hideColumnsRight].endOffset to end to parsedLine.size - hideColumnsRight - 1)
         }
       } else {
         lastLineWasVisible = false
@@ -123,7 +126,7 @@ class FoldingCalculatorTask(project: Project, val editor: Editor, fileName: Stri
     }
 
     foldingsColumns.forEach {
-      addedFoldings.add(editor.foldingModel.addFoldRegion(it.first, it.second, "${editor.document.ideologContext.hideColumnsLeft + 1} columns hidden"))
+      addedFoldings.add(editor.foldingModel.addFoldRegion(it.first.first, it.first.second, " ${it.second} columns hidden "))
     }
 
     addedFoldings.forEach {

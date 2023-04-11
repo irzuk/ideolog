@@ -11,20 +11,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 
 abstract class HideColumnsLeftRightIntentionBase(val setter: (IdeologDocumentContext, Int) -> Unit, private val directionText: String) : IntentionAction {
-  override fun getText(): String {
-    return "Hide columns $directionText"
-  }
+  override fun getText() = "Hide columns $directionText"
 
-  override fun getFamilyName(): String {
-    return "Logs"
-  }
+  override fun getFamilyName() = "Logs"
 
-  override fun isAvailable(project: Project, editor: Editor, file: PsiFile?): Boolean {
-    if (file?.fileType != LogFileType)
-      return false
-
-    return true
-  }
+  override fun isAvailable(project: Project, editor: Editor, file: PsiFile?) = file?.fileType == LogFileType
 
   override fun invoke(project: Project, editor: Editor, file: PsiFile?) {
     val column = LogParsingUtils.getColumnByOffset(editor)
@@ -38,4 +29,4 @@ abstract class HideColumnsLeftRightIntentionBase(val setter: (IdeologDocumentCon
 }
 
 class HideColumnsLeftIntention: HideColumnsLeftRightIntentionBase({ context, column -> context.hideColumnsLeft = column }, "left")
-class HideColumnsRightIntention: HideColumnsLeftRightIntentionBase({ context, line -> context.hideLinesBelow = line }, "right")
+class HideColumnsRightIntention: HideColumnsLeftRightIntentionBase({ context, column -> context.hideColumnsRight = column }, "right")
