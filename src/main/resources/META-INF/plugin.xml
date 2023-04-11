@@ -103,6 +103,18 @@
     </intentionAction>
 
     <intentionAction>
+      <className>com.intellij.ideolog.intentions.HideColumnsLeftIntention</className>
+      <bundleName>com.intellij.ideolog.intentions.IntentionResources</bundleName>
+      <categoryKey>intention.category.log</categoryKey>
+    </intentionAction>
+
+    <intentionAction>
+      <className>com.intellij.ideolog.intentions.HideColumnsRightIntention</className>
+      <bundleName>com.intellij.ideolog.intentions.IntentionResources</bundleName>
+      <categoryKey>intention.category.log</categoryKey>
+    </intentionAction>
+
+    <intentionAction>
       <className>com.intellij.ideolog.intentions.HideLinesContainingSubstringIntention</className>
       <bundleName>com.intellij.ideolog.intentions.IntentionResources</bundleName>
       <categoryKey>intention.category.log</categoryKey>

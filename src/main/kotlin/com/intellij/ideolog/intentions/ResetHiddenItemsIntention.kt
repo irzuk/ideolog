@@ -24,7 +24,7 @@ class ResetHiddenItemsIntention : IntentionAction {
     val hasWhitelistedSubstrings = !context.whitelistedSubstrings.isNullOrEmpty()
     val hasWhitelistedItems = !context.whitelistedItems.isNullOrEmpty()
 
-    return hasHiddenItems || hasHiddenSubstrings || hasWhitelistedSubstrings || hasWhitelistedItems || context.hideLinesAbove >= 0 || context.hideLinesBelow < Int.MAX_VALUE
+    return hasHiddenItems || hasHiddenSubstrings || hasWhitelistedSubstrings || hasWhitelistedItems || context.hideLinesAbove >= 0 || context.hideLinesBelow < Int.MAX_VALUE || context.hideColumnsLeft > -1 || context.hideColumnsRight < Int.MAX_VALUE
   }
 
   override fun invoke(project: Project, editor: Editor, file: PsiFile?) {
@@ -36,6 +36,8 @@ class ResetHiddenItemsIntention : IntentionAction {
 
     context.hideLinesAbove = -1
     context.hideLinesBelow = Int.MAX_VALUE
+    context.hideColumnsLeft = -1
+    context.hideColumnsRight = Int.MAX_VALUE
 
     FoldingCalculatorTask.restartFoldingCalculator(project, editor, file)
   }
