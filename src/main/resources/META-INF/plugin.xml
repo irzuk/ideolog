@@ -150,5 +150,7 @@
 
     <action id="Log.GoToPrevEntry" class="com.intellij.ideolog.editorActions.GoToPrevEntryAction" text="Go To Previous Entry in Log"/>
     <action id="Log.GoToNextEntry" class="com.intellij.ideolog.editorActions.GoToNextEntryAction" text="Go To Next Entry in Log"/>
+      <action id="com.intellij.ideolog.editorActions.OpenLogFileAction" class="com.intellij.ideolog.editorActions.OpenLogFileAction"
+              text="OpenLogFile"/>
   </actions>
 </idea-plugin>
